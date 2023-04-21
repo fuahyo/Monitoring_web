@@ -1,26 +1,27 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Welcome Back, {{ auth()->user()->name }}</h1>
+    <div class="d-flex justify-content-center flex-wrap flex-md-nowrap align-items-center pb-2 mb-2 border-bottom">
+        <h2 class=" m-0 font-weight-bold text-danger mb-3">Welcome Back, {{ auth()->user()->name }}</h1>
     </div>
     <!-- <div class="container" mt-4> -->
-    <div class="row justify-content-center mb-3">
-        <h1 class="text-center mb-2 mt-2"></h1>
-        <div class="row justify-content-md-center" px-3> 
-            <div class="row">
-                <div class="col-lg-12 col-xl-12 mb-2">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            ALL CAPA
-                        </div>
-                        <div class="card-body">
-                            <div id='calendar'></div>
-                        </div>
-                    </div>
+    @if(session()->has('success'))
+        <div class="alert alert-success col-lg-10 ms-4" role="alert">
+        {{ session('success') }}
+        </div>
+    @endif
+    <div class="row">
+		<div class="col-lg-12 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header d-flex flex-row align-items-center justify-content-between">
+                    <h3 class="h3 m-0 font-weight-bold text-danger">My CAPA</h3>
+                </div>
+                <div class="card-body">
+                    <div id='calendar'></div>
                 </div>
             </div>
         </div>
+    </div>
         
         <!-- Modal -->
         <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,7 +73,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 
     <script>
         $(document).ready(function() {

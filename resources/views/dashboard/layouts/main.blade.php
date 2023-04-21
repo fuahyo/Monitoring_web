@@ -1,224 +1,151 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <meta name="description" content=""> -->
-    <!-- <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors"> -->
-    <!-- <meta name="generator" content="Hugo 0.84.0"> -->
-    <title>Galang's | Dasboard</title>
 
-    <!-- Bootstrap core CSS -->
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-    <!-- <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/sidebars/">
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">     
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style> -->
-    <!-- Custom styles for this template -->
-    <link href="/css/dashboard.css" rel="stylesheet">
+</head>
 
-    <!-- trix editor -->
-    <link rel="stylesheet" type="text/css" href="/css/trix.css">
-    <script type="text/javascript" src="/js/trix.js"></script>
+<body id="page-top">
 
-    <!-- fungsi menghilangkan ikon upload file kaya di email -->
-    <style>
-      trix-toolbar [data-trix-button-group = "file-tools"]{
-        display:none;
-      }
-    </style>
-    <meta charset='utf-8' />
+    <!-- Page Wrapper -->
+    <div id="wrapper">
 
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}" >
-    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css' rel='stylesheet' />
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script> -->
+        <!-- Sidebar -->
+        @include('dashboard.layouts.sidebar')
+        <!-- End of Sidebar -->
 
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script> -->
+            <!-- Main Content -->
+            <div id="content">
 
-    <!-- <meta name="csrf-token" content="{{ csrf_token() }}" >
-      <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css' rel='stylesheet' />
-      <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
+                <!-- Topbar -->
+                @include('dashboard.layouts.header')
+                <!-- End of Topbar -->
 
-  <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                    <!-- Page Heading -->
+                    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-warning shadow-sm"><i
+                                class="fas fa-download fa-sm text-black-50"></i> Generate Report</a>
+                    </div> -->
+                    @yield('container')
+                    <!-- Content Row -->
+                    <div class="row">
 
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
 
-  </head>
-  <body>
-    
-@include('dashboard.layouts.header')
+                    </div>
+                    <!-- Content Row -->
+                    <div class="row">
 
-<div class="container-fluid">
-    <div class="row">
-      @include('dashboard.layouts.sidebar')
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-              @yield('container')
+                    </div>
 
-              <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+                </div>
+                <!-- /.container-fluid -->
 
-              <!-- <h2>Section title</h2>
-              <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Header</th>
-                      <th scope="col">Header</th>
-                      <th scope="col">Header</th>
-                      <th scope="col">Header</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1,001</td>
-                      <td>random</td>
-                      <td>data</td>
-                      <td>placeholder</td>
-                      <td>text</td>
-                    </tr>
-                    <tr>
-                      <td>1,002</td>
-                      <td>placeholder</td>
-                      <td>irrelevant</td>
-                      <td>visual</td>
-                      <td>layout</td>
-                    </tr>
-                    <tr>
-                      <td>1,003</td>
-                      <td>data</td>
-                      <td>rich</td>
-                      <td>dashboard</td>
-                      <td>tabular</td>
-                    </tr>
-                    <tr>
-                      <td>1,003</td>
-                      <td>information</td>
-                      <td>placeholder</td>
-                      <td>illustrative</td>
-                      <td>data</td>
-                    </tr>
-                    <tr>
-                      <td>1,004</td>
-                      <td>text</td>
-                      <td>random</td>
-                      <td>layout</td>
-                      <td>dashboard</td>
-                    </tr>
-                    <tr>
-                      <td>1,005</td>
-                      <td>dashboard</td>
-                      <td>irrelevant</td>
-                      <td>text</td>
-                      <td>placeholder</td>
-                    </tr>
-                    <tr>
-                      <td>1,006</td>
-                      <td>dashboard</td>
-                      <td>illustrative</td>
-                      <td>rich</td>
-                      <td>data</td>
-                    </tr>
-                    <tr>
-                      <td>1,007</td>
-                      <td>placeholder</td>
-                      <td>tabular</td>
-                      <td>information</td>
-                      <td>irrelevant</td>
-                    </tr>
-                    <tr>
-                      <td>1,008</td>
-                      <td>random</td>
-                      <td>data</td>
-                      <td>placeholder</td>
-                      <td>text</td>
-                    </tr>
-                    <tr>
-                      <td>1,009</td>
-                      <td>placeholder</td>
-                      <td>irrelevant</td>
-                      <td>visual</td>
-                      <td>layout</td>
-                    </tr>
-                    <tr>
-                      <td>1,010</td>
-                      <td>data</td>
-                      <td>rich</td>
-                      <td>dashboard</td>
-                      <td>tabular</td>
-                    </tr>
-                    <tr>
-                      <td>1,011</td>
-                      <td>information</td>
-                      <td>placeholder</td>
-                      <td>illustrative</td>
-                      <td>data</td>
-                    </tr>
-                    <tr>
-                      <td>1,012</td>
-                      <td>text</td>
-                      <td>placeholder</td>
-                      <td>layout</td>
-                      <td>dashboard</td>
-                    </tr>
-                    <tr>
-                      <td>1,013</td>
-                      <td>dashboard</td>
-                      <td>irrelevant</td>
-                      <td>text</td>
-                      <td>visual</td>
-                    </tr>
-                    <tr>
-                      <td>1,014</td>
-                      <td>dashboard</td>
-                      <td>illustrative</td>
-                      <td>rich</td>
-                      <td>data</td>
-                    </tr>
-                    <tr>
-                      <td>1,015</td>
-                      <td>random</td>
-                      <td>tabular</td>
-                      <td>information</td>
-                      <td>text</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div> -->
-        </main>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <!-- <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer> -->
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
     </div>
-</div>
+    <!-- End of Page Wrapper -->
 
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <!-- <a class="btn btn-primary" href="login.html">Logout</a> -->
+                    <form action="/logout" method="post">
+                    @csrf
+                        <button type="submit" class="btn btn-primary">Logout<span data-feather="logout"></span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     
-    <script src="/js/dashboard.js"></script>
-  </body>
+    
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/js/demo/chart-area-demo.js"></script>
+    <script src="/js/demo/chart-pie-demo.js"></script>
+
+</body>
+
 </html>

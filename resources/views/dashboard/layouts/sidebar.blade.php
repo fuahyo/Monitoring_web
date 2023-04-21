@@ -1,81 +1,68 @@
-<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-    <div class="position-sticky pt-3">
-        <ul class="nav flex-column mb-5">
-            <li class="nav-item">
-                <!-- kalau requestnya dasboard, maka tampilkan kelas active -->
-                <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" aria-current="page" href="/dashboard">
-                <span data-feather="home"></span>
-                Dashboard
-              </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('dashboard/mypost*') ? 'active' : '' }}" href="/dashboard/mypost">
-                <span data-feather="file-text"></span>
-                My CAPA
-              </a>
-            </li>
-        </ul>
 
-        @can('admin')
-        <h3 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Administrator</span>
-        </h3>
+<ul class=" navbar-nav bg-gradient-danger sidebar sidebar-dark ">
+    <nav class="nav nav-pills flex-column">
+        <div class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+            <div class="sidebar-brand-text mr-3">
+                <a href="/dashboard"><img src="/img/logoperusahaan.PNG" alt="" style="width: 80%" href="/dashboard"> </a>
+            </div>
+            <div>
+                <button class="rounded-circle border-0 mt-3" id="sidebarToggle"></button>
+            </div>
+        </div>
 
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <!-- kalau requestnya dasboard.posts, maka tampilkan kelas active -->
-            <a class="nav-link {{ Request::is('dashboard/posts*') ? 'active' : '' }}" href="/dashboard/posts">
-              <span data-feather="file-text"></span>
-              All Post
+        <hr class="sidebar-divider my-0">
+
+        <li class="nav-item">
+            <a class=" nav-link {{ Request::is('dashboard') ? 'active bg-dark' : '' }}" aria-current="page" href="/dashboard" >
+                <i class="fas fa-fw fa-table"></i>
+                <span>Dashboard</span></a>
             </a>
-          </li>
-          <li class="nav-item">
-            <!-- kalau requestnya dasboard.posts, maka tampilkan kelas active -->
-            <a class="nav-link {{ Request::is('dashboard/users*') ? 'active' : '' }}" href="/dashboard/users">
-              <span data-feather="file-text"></span>
-              All User
+        </li>
+        @if(auth()->user()->role_id == '1')
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('dashboard/mypost*') ? 'active bg-dark' : '' }}" aria-current="page" href="/dashboard/mypost">
+              <i class="fas fa fa-file"></i>
+              <span >My CAPA</span>
+              
             </a>
-          </li>
-          <li class="nav-item">
-              <!-- kalau requestnya dasboard.posts, maka tampilkan kelas active -->
-            <a class="nav-link {{ Request::is('dashboard/categories*') ? 'active' : '' }}" href="/dashboard/categories">
-              <span data-feather="file-text"></span>
-               Categories
+        </li>
+        @endif
+        @if(auth()->user()->role_id != '1')
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('dashboard/mydepartementpost*') ? 'active bg-dark' : '' }}" aria-current="page" href="/dashboard/mydepartementpost">
+              <i class="fas fa fa-file"></i>
+              <span >My Dept CAPA</span>
+              
             </a>
-          </li>
-        </ul>
-          <!-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Saved reports</span>
-            <a class="link-secondary" href="#" aria-label="Add a new report">
-              <span data-feather="plus-circle"></span>
+        </li>
+        @endif
+
+        <hr class="sidebar-divider px-3 mt-4">
+        @if(auth()->user()->role_id == '3')
+        <div class="sidebar-heading text-center align-items-center  mb-1 ">
+            Admin
+        </div>
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('dashboard/chart*') ? 'active bg-dark' : '' }}" href="/dashboard/chart">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Report</span></a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('dashboard/posts*') ? 'active bg-dark' : '' }}" href="/dashboard/posts" >
+                <i class="fas fa-fw fa-folder"></i>
+                <span>All CAPA</span>
+            </a> 
+        </li>
+
+        <li class="nav-item">    
+            <a class="nav-link {{ Request::is('dashboard/users*') ? 'active bg-dark' : '' }}" aria-current="page" href="/dashboard/users">
+              <i class="fa fa-user"></i>
+              <span>All Users</span>
+              
             </a>
-          </h6>
-          <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Current month
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Last quarter
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Social engagement
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Year-end sale
-                </a>
-              </li>
-          </ul> -->
-        @endcan
-    </div>
-</nav>       
+        </li>
+        <hr class="sidebar-divider d-none d-md-block">
+        @endif
+    </nav>
+</ul>

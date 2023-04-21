@@ -2,13 +2,25 @@
 
 @section('container')
 <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <main class="form-registration">
-            <h1 class="h3 mb-3 fw-normal text-center mt-2">Form Registrasi</h1>
+    <div class="d-flex justify-content-between flex-wrap align-items-center ms-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Registration Form:</h1>
+            <a href="/dashboard/users" class="btn btn-success mb-3"><span data-feather="arrow-left"></span> Back To All User</a>
+    </div>
 
-            
+    <div class="col-lg-8">
+        <main class="form-registration"> 
             <form action="/dashboard/users" method="post" enctype="multipart/form-data">
                 @csrf
+                <div class="mb-2" >
+                    <label for="name">Photo Profil</label>
+                    <input class="form-control @error('photo_profil') is-invalid @enderror" type="file" id="photo_profil" name="photo_profil" onchange="previewImage()">
+                    @error('photo_profil')
+                            <div  class="invalid-feedback">
+                                {{$message}}
+                            </div>
+                    @enderror
+                </div>
+
                 <div class="mb-2" >
                     <label for="name">Name</label>
                     <input type="text" name="name" class="form-control rounded @error('name') is-invalid @enderror" id="name" placeholder="Name" required value="{{old('name')}}">
@@ -31,11 +43,26 @@
                 <div class="mb-1">
                     <label for="departement" class="form-label">Departement</label>
                     <select class="form-select" name="departement_id">
+                        <option value="">Select departement</option>
                         @foreach ($departements as $departement)
                             @if( old('departement_id') == $departement->id)
                             <option value="{{ $departement->id }}" selected>{{ $departement->name }}</option>
                             @else
                             <option value="{{ $departement->id }}">{{ $departement->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mb-1">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" name="role_id">
+                        <option value="">Select role</option>
+                        @foreach ($roles as $role)
+                            @if( old('role_id') == $role->id)
+                            <option value="{{ $role->id }}" selected>{{ $role->name }}</option>
+                            @else
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endif
                         @endforeach
                     </select>
@@ -58,47 +85,12 @@
                         {{$message}}
                     </div>
                     @enderror
-                </div>
-        
-                <!-- <div class="checkbox mb-1">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-                </div> -->
+                </div>    
                 <button class="w-100 btn btn-lg btn-outline-primary mt-4" type="submit">Register</button>
-                <!-- <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p> -->
             </form>
-            <!-- <small class="d-block text-center mt-3">Udah Daftar? <a href="/dashboard/users"> Silakan Login!</a></small> -->
-            </main>       
-        </div>
+        </main>       
+        
     </div>
-
-    <!-- <div class="col-lg-8">
-        <form method="post" action="/dashboard/users" class="mb-5" enctype="multipart/form-data">
-            @csrf
-            <div class="mb-3">
-                <label for="name" class="form-label">User</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" required autofocus value="{{old('name')}}">
-                @error('title')
-                        <div  class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control  @error('slug') is-invalid @enderror" id="slug" name="slug" aria-label="Disabled input example" disable readonly required value="{{old('slug')}}">
-                @error('slug')
-                        <div  class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                @enderror
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Create Category</button>
-            
-        </form>    
-    </div> -->
 
     <script>
         // ambil ID yang udah kita buat yaitu name dan slug
@@ -110,6 +102,22 @@
             .then(response => response.json())
             .then(data => slug.value = data.slug)
         });
+
+        function previewImage(){
+            const image = document.querySelector('#photo_profil');
+            const imgPreview = document.querySelector('.img-preview');
+
+            imgPreview.style.display = 'block';
+
+            //mengambil data gambar
+            const oFReader = new FileReader();
+            oFReader.readAsDataURL(photo_profil.files[0]);
+
+            //ketika di load, jalankan sebuah fungtion oFREvent
+            oFReader.onload = function(oFREvent){
+                imgPreview.src = oFREvent.target.result;
+            }
+        }
 
     </script>
 

@@ -1,7 +1,8 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="row justify-content-center">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center mx-5 pb-2 mb-3 border-bottom">
             <h1 class="h2">Create New CAPA</h1>
             <a href="/dashboard/posts" class="btn btn-success mb-3"><span data-feather="arrow-left"></span> Back To My CAPA</a>
     </div>
@@ -122,7 +123,6 @@
             <div class="mb-3">     
                 <label for="user" class="form-label">User</label>
                 <select name="user_id" id="user_id" class="form-select">
-                    
                     <option value="">Select User</option>
                 </select>
             </div>
@@ -142,35 +142,38 @@
                 @enderror
             </div>
             
-            <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
+            
+            <div class="mb-3 invisible">
+                <!-- <label for="status" class="form-label">Status</label> -->
                 <select class="form-select" name="status_id" >
                     @foreach ($statuses as $status)
-                    @if( old('status_id') == $status->id)
-                    <option value="{{ $status->id }}" selected>{{ $status->name }}</option>
-                    @else
-                    <option value="{{ $status->id }}">{{ $status->name }}</option>
-                    @endif
+                        @if( old('status_id') == $status->id)
+                            <option value="{{ $status->id }}" selected>{{ $status->name }}</option>
+                        @else
+                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
+            <button type="submit" class="w-100 btn btn-lg btn-outline-primary mt-4">Create Post</button>
             
-            <button type="submit" class="btn btn-primary">Create Post</button>
             <!-- ini form input yg di hide -->
            
             <div class="mb-3 invisible">
-                <label for="slug" class="form-label">Slug</label>
-                <input type="text" class="form-control  @error('slug') is-invalid @enderror" id="slug" name="slug" aria-label="Disabled input example" disable readonly required value="{{old('slug')}}">
-                @error('slug')
-                        <div  class="invalid-feedback">
-                            {{$message}}
-                        </div>
-                @enderror
+                <input type="text" class="  @error('slug') is-invalid @enderror" id="slug" name="slug" aria-label="Disabled input example" disable readonly required value="{{old('slug')}}">
+                <div class="mb-3">
+                <select name="email" id="email" class="select">  
+                </select>
+                <select name="user_name" id="user_name" class="select">  
+                </select>
             </div>
+
             
             
         </form>    
     </div>
+</div>
+
 
     <!-- pakai fetch API -->
     <script>
@@ -187,23 +190,54 @@
                     if (departement_id == "") {
                         var departement_id = 0;
                     } 
-
+                    console.log(departement_id);
                     $.ajax({
                         url: '{{ url("/dashboard/posts/fetch-users/") }}/'+departement_id,
                         type: 'get',
                         dataType: 'json',
-                        success: function(response) {                    
+                        success: function(data) {                    
                             $('#user_id').find('option:not(:first)').remove();
-
-                            if (response['users'].length > 0) {
-                                $.each(response['users'], function(key,value){
-                                    $("#user_id").append("<option value='"+value['id']+"'>"+value['name']+"</option>")
+                            $('#email').find('option:not(:first)').remove(); //hapus data email pertama
+                            
+                            if (data['user_byDepartementId'].length > 0) {
+                                $.each(data['user_byDepartementId'], function(key,value){
+                                    
+                                    $("#user_id").append("<option value='"+value['id']+"'>"+value['name']+"</option>");
                                 });
+                                console.log(data);
+                                    
                             } 
                         }
                     });            
                 });
+
+                $("#user_id").change(function(){
+                    var user_id=$(this).val();
+
+                    if (user_id == "") {
+                        var user_id = 0;
+                    } 
+                    console.log(user_id);
+                    $.ajax({
+                        url: '{{ url("/dashboard/posts/fetch-emails/") }}/'+user_id,
+                        type:'get',
+                        dataType:'json',
+                        success:function(response){
+                            $('#email').empty(); //hapus semua data email sebelumnya
+                            $('#user_name').empty(); //hapus semua data email sebelumnya
+
+                            if (response['user_byUserId'].length > 0) {
+                                $.each(response['user_byUserId'], function(key,value){
+                                        $("#email").append("<option value='"+value['email']+"'>"+value['email']+"</option>");
+                                        $("#user_name").append("<option value='"+value['name']+"'>"+value['name']+"</option>");
+                                });
+                            } 
+                        },
+                    });
+                });
+                
         });
+
         // ambil ID yang udah kita buat yaitu title dan slug
         const title = document.querySelector('#title');
         const slug = document.querySelector('#slug');
@@ -213,26 +247,5 @@
             .then(response => response.json())
             .then(data => slug.value = data.slug)
         });
-
-        // disable fungsi upload file kaya di email
-        document.addEventListener('trix-file-accept', function(e) {
-           e.preventDefault(); 
-        });
-
-        function previewImage(){
-            const image = document.querySelector('#image');
-            const imgPreview = document.querySelector('.img-preview');
-
-            imgPreview.style.display = 'block';
-
-            //mengambil data gambar
-            const oFReader = new FileReader();
-            oFReader.readAsDataURL(image.files[0]);
-
-            //ketika di load, jalankan sebuah fungtion oFREvent
-            oFReader.onload = function(oFREvent){
-                imgPreview.src = oFREvent.target.result;
-            }
-        }
     </script>
 @endsection

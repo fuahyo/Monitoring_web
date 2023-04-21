@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Departement;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +21,8 @@ class AdminUserController extends Controller
     {
         // return User::all();
         return view('dashboard.users.index', [
-            'users' => User::all()
+            'users' => User::all(),
+            // 'posts' => Post::all(),
         ]);
     }
 
@@ -36,7 +38,8 @@ class AdminUserController extends Controller
             
             'title' => 'Register',
             'active' => 'register',
-            'departements' => Departement::all()
+            'departements' => Departement::all(),
+            'roles' => Role::all(),
         ]);
     }
 
@@ -46,16 +49,23 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request, User $user)
+    {   
+        // dd($request);
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             //bisa nulis pakai tanda pipe "|" atau pakai array kaya dibawah ini
             'username' => ['required', 'min:3', 'max:255', 'unique:users'],
             'departement_id' => 'required',
+            'role_id' => 'required',
+            'photo_profil' => 'image',
             'email' => 'required|email:dns|unique:users',
             'password' => 'required|min:5|max:255',
         ]);
+
+        if($request->file('photo_profil')){
+            $validatedData['photo_profil'] = $request->file('photo_profil')->store('user-images');
+        }
 
         // //encripsi password, bisa pakay bcrypt atau hash
         // $validatedData['password'] = bcrypt($validatedData['password']);
@@ -95,7 +105,8 @@ class AdminUserController extends Controller
             'user' => $user,
             'title' => 'Register',
             'active' => 'register',
-            'departements' => Departement::all()
+            'departements' => Departement::all(),
+            'roles' => Role::all()
         ]);
     }
 
@@ -112,9 +123,18 @@ class AdminUserController extends Controller
             'name' => 'required|max:255',
             // 'username' => ['required', 'min:3', 'max:255', 'unique:users'],
             'departement_id' => 'required',
+            'role_id' => 'required',
+            'photo_profil' => 'image',
             // 'email' => 'required|email:dns|unique:users',
             'password' => 'required|min:5|max:255',
         ];
+        $validatedData = $request->validate($rules);
+        if($request->file('photo_profil')){
+            if($request->oldPhoto_profil){
+                Storage::delete($request->oldPhoto_profil);
+            }
+            $validatedData['photo_profil'] = $request->file('photo_profil')->store('user-images');
+        }
         if($request->email != $user->email){
             $rules['email'] = 'required|email:dns|unique:users';
         };
@@ -124,7 +144,6 @@ class AdminUserController extends Controller
         // $validatedData['password'] = Hash::make($validatedData['password']);
         // $some_same_string = decrypt($password);
         // return ($some_same_string);
-        $validatedData = $request->validate($rules);
         User::where('id', $user->id)->update($validatedData);
 
         //pesan allert ketika sudah daftar
@@ -133,16 +152,6 @@ class AdminUserController extends Controller
         //lanjut ke halaman login setelah register
         return redirect('/dashboard/users');
 
-        // if($request->slug != $category->slug){
-        //     $rules['slug'] = 'required|unique:posts';
-        // }
-
-        // $validatedData = $request->validate($rules);
-
-        // Category::where('id', $category->id)
-        //         ->update($validatedData);
-
-        // return redirect('/dashboard/categories')->with('success', 'Category has been edited!');
     }
 
     /**
@@ -153,6 +162,9 @@ class AdminUserController extends Controller
      */
     public function destroy(User $user)
     {
+        if($user->photo_profil){
+            Storage::delete($user->photo_profil);
+        }
         User::destroy($user->id);
         return redirect('/dashboard/users')->with('success', 'User berhasil dihapus!');
     }

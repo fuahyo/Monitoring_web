@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+       
         return view('login.index', [
             'title' => 'Login',
             'active' => 'login'
@@ -28,15 +29,8 @@ class LoginController extends Controller
         //with('') = masuk ke flash message 
         return back()->with('loginError', 'Login Failed!');
 
-
-        // User::create($validatedData);
-
-        // //pesan allert ketika sudah daftar
-        // $request->session()->flash('success', 'Registrasi Berhasil! Silakan Login!');
-
-        // //lanjut ke halaman login setelah register
-        // return redirect('/login');
     }
+  
 
     public function logout(Request $request){
         Auth::logout();

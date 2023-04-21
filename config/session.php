@@ -35,6 +35,8 @@ return [
 
     'expire_on_close' => false,
 
+    // 'remember_web_lifetime' => env('SESSION_REMEMBER_WEB_LIFETIME', 20160),
+
     /*
     |--------------------------------------------------------------------------
     | Session Encryption

@@ -27,30 +27,11 @@ class DashboardController extends Controller
                 'start' => $post->timeline->format('Y-m-d'),
             ];
         }
-        // return $events;
-
-        // untuk ngecek data yang kita punya (yg udah dikirimkan sesuai id)
-        // return Post::where('user_id', auth()->user()->id)->get();
         return view('dashboard.index',[
             'events' => $events,
-        //     // buat nampilin semua post
-        //     // 'posts' => Post::all()
-        //     // 'posts' => Post::where('user_id', auth()->user()->id)->get()
         ]);
 
-    //     public function edit(Post $post)
-    //     {
-    //         return view('dashboard.edit', [
-                
-    //             'post' => $post,
-    //             'departements' => Departement::all(),
-    //             'users' => User::all(),
-    //             'classifications' => Classification::all(),
-    //             'rootcauses' => Rootcause::all(),
-    //             'statuses' => Status::all(),
-                
-    //         ]);
-    //     }
+   
     }
 
     public function action(Request $request)

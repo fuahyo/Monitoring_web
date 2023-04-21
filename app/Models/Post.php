@@ -15,8 +15,8 @@ class Post extends Model
     
     //kebalikan dari fillable, 'id' gaboleh diisi, sisanya (title, excerpt, body) bisa diisi
     protected $guarded = ['id'];
-    protected $with = ['category', 'user','departement', 'classification', 'rootcause',  'status' ];
-    protected $dates = ['timeline'];
+    protected $with = ['category', 'user','departement','role', 'classification', 'rootcause',  'status' ];
+    protected $dates = ['timeline', 'timeline1', 'timeline2'];
 
     public function scopeFilter($query, array $filters){
         // if(isset($filters['search'])?$filters['search']:false){
@@ -56,6 +56,11 @@ class Post extends Model
                 $query->where('slug', $status);
             });
         });
+        $query->when($filters['role'] ?? false, function($query, $role){
+            return $query->whereHas('role', function($query) use ($role){
+                $query->where('slug', $role);
+            });
+        });
         // $query->when($filters['timeline'] ?? false, function($query, $timeline){
         //     return $query->whereHas('timeline', function($query) use ($timeline){
         //         $query->where('slug', $timeline);
@@ -93,6 +98,9 @@ class Post extends Model
   
     public function departement(){
         return $this->belongsTo(Departement::class, 'departement_id');
+    }
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function getRouteKeyName()

@@ -56,5 +56,8 @@ class User extends Authenticatable
     public function departement(){
         return $this->belongsTo(Departement::class);
     }
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
 
 }
